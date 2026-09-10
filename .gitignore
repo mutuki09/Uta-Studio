@@ -1,0 +1,37 @@
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.pfx
+
+# Dependencies and generated files
+node_modules/
+coverage/
+dist/
+.cache/
+.tmp/
+*.log
+*.tmp
+
+# Local engines and user-generated media
+local-neutrino/
+generated-audio/
+exports/
+*.wav
+*.mp3
+*.flac
+*.sf2
+*.sf3
+*.dls
+
+# Editor and operating-system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Local release metadata
+package-manifest.json

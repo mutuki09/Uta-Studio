@@ -1,0 +1,1 @@
+document.getElementById('harmonyMode').addEventListener('change',function(){UG.harmonyLab.enabled=this.value==='enhanced';document.getElementById('harmonyStatus').textContent=(UG.harmonyLab.enabled?'理論補助':'従来の処理')+'を選択中。次の作曲・伴奏再生成と診断に反映します。';});

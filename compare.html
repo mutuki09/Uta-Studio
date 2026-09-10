@@ -1,0 +1,7 @@
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>和声ラボ A/B試聴</title>
+<style>body{font:17px/1.8 system-ui;background:#f5f6fc;color:#172554;max-width:900px;margin:40px auto;padding:20px}section{background:white;padding:24px;border-radius:20px;margin:20px 0}button,select{font:inherit;padding:10px;margin:6px;border:1px solid #a5b4fc;border-radius:8px}button{cursor:pointer}table{width:100%;border-collapse:collapse}td,th{padding:8px;border-bottom:1px solid #ddd;text-align:left}</style>
+<a href="index.html">← 作曲画面</a><h1>同じコード、違うつながり。</h1><p>音色・テンポ・ベース・長さを揃え、和音の配置だけを比較します。</p>
+<section><label>進行 <select id="progression"><option value="pop">C → Am → F → G</option><option value="seventh">FM7 → G7 → Em7 → Am7</option><option value="mixed">C → Dm7 → G7 → C</option></select></label><br>
+<button id="a">A 従来を聴く</button><button id="b">B 理論補助を聴く</button><button id="stop">停止</button><p id="status" role="status">再生ボタンを押してください。</p><table><thead><tr><th>コード</th><th>Aの音高</th><th>Bの音高</th></tr></thead><tbody id="rows"></tbody></table><p id="metric"></p></section>
+<section><h2>診断も比較</h2><p>C–C♯–Dと短くつながる例を比較。C♯は弱拍の短い経過音候補です。正解の認定や自動修正はしません。</p><p id="diagnostic"></p></section>
+<script src="js/theory.js"></script><script src="js/midi-doctor.js"></script><script src="js/harmony-lab.js"></script><script src="js/compare.js"></script></html>
