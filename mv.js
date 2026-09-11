@@ -25,7 +25,7 @@
       pictures.forEach(p=>p.close());pictures=next;draw();status(`CC0素材${pictures.length}枚を読み込みました。`);
     }catch(err){status('CC0素材を読み込めません: '+err.message);}
   };
-  $('mvSong').onclick=async()=>{ try { status('曲を準備しています…'); const result=await window.MVBridge(); loadAudio(new Blob([result.bytes],{type:'audio/wav'})); $('mvBpm').value=result.bpm; status('現在の曲を引き継ぎました。編集後はもう一度引き継いでください。'); }catch(e){status(e.message);} };
+  $('mvSong').onclick=async()=>{ try { status('曲を準備しています…'); if(typeof window.MVBridge!=='function')throw Error('曲の受け渡し機能を読み込めませんでした。ページを再読み込みしてください。'); const result=await window.MVBridge(); loadAudio(new Blob([result.bytes],{type:'audio/wav'})); $('mvBpm').value=result.bpm; status('現在の曲を引き継ぎました。編集後はもう一度引き継いでください。'); }catch(e){status(e.message);} };
   function cover(image,x,y,w,h,scale=1){const r=Math.max(w/image.width,h/image.height)*scale;ctx.save();ctx.beginPath();ctx.rect(x,y,w,h);ctx.clip();ctx.drawImage(image,x+(w-image.width*r)/2,y+(h-image.height*r)/2,image.width*r,image.height*r);ctx.restore();}
   function draw(){
     const bpm=Math.max(30,Math.min(300,Number($('mvBpm').value)||96)), duration=60/bpm*Number($('mvBeats').value), t=player.currentTime||0, shot=Math.floor(t/duration), phase=(t%duration)/duration;

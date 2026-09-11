@@ -820,6 +820,14 @@
     if (!state.song) return; invalidateVoice("ピアノロールを直したため、古い歌声を外しました。"); updateSongRange(); commitCandidate(); renderDiagnosis();
   });
   loadVoices(); initAudio(); checkSeparator();
+  window.MVBridge = function () {
+    if (!state.song) {
+      return Promise.reject(new Error("先に曲を作るか読み込んでください。曲なしで映像だけ作る場合は、CC0素材を読み込んで下の「20秒プレビュー」を押してください。"));
+    }
+    return exportMix(false).then(function (result) {
+      return { bytes:result.bytes, bpm:state.bpm, title:state.title || "song" };
+    });
+  };
   window.AIScoreStudio = {
     state:state,
     loadSample:function () { $("blueprintText").value = UG.songSheet.sample(); return detectAndApplyText($("blueprintText").value); },
