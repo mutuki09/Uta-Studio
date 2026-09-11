@@ -18,7 +18,7 @@ void async function () {
     <h2>⑥ MV制作 · MVスタジオ</h2>
     <p>8系統の演出・背景・色調整・構成シャッフル・MP4出力</p>
     <button id="sendMvStudio">今の曲をMVに引き継ぐ</button>
-    <button id="loadCharacterPack" hidden>ずんだもん・めたん素材16枚をまとめて読み込む</button>
+    <button id="loadCharacterPack" hidden>ずんだもん・めたん素材をまとめて読み込む</button>
     <button id="loadCc0Pack">CC0素材19枚を使う</button>
     <button id="goMvPreview">書き出す場所へ移動</button>
     <button id="reloadMvStudio">制作画面を再接続</button>
@@ -41,15 +41,15 @@ void async function () {
   }
 
   async function sendPack(manifest, label, preset = '') {
-    const load = async path => {
+    const load = async (path, fit = 'cover') => {
       const response = await fetch(path);
       if (!response.ok) throw Error(path);
-      return { name: path.split('/').pop(), blob: await response.blob() };
+      return { name: path.split('/').pop(), blob: await response.blob(), fit };
     };
     const [backgrounds, main, characters] = await Promise.all([
       Promise.all((manifest.backgrounds || []).map(load)),
       Promise.all((manifest.main || []).map(load)),
-      Promise.all((manifest.characters || []).map(load))
+      Promise.all((manifest.characters || []).map(path => load(path, 'contain')))
     ]);
     frame.contentWindow.postMessage({
       type: 'asset-pack-transfer',
@@ -80,8 +80,11 @@ void async function () {
   characterButton.onclick = async function () {
     this.disabled = true;
     try {
-      message.textContent = 'ずんだもん・めたん素材16枚を準備しています…';
       characterManifest ||= await getManifest('local-assets/mv-zundamon-metan/manifest.json');
+      const count = (characterManifest?.backgrounds?.length || 0)
+        + (characterManifest?.main?.length || 0)
+        + (characterManifest?.characters?.length || 0);
+      message.textContent = `ずんだもん・めたん素材${count}枚を準備しています…`;
       await sendPack(characterManifest, 'ずんだもん・めたん素材', 'cast');
       message.textContent = 'MVスタジオへずんだもん・めたん素材を送信しています…';
     } catch (error) {
