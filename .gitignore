@@ -17,6 +17,8 @@ dist/
 
 # Local engines and user-generated media
 local-neutrino/
+local-assets/
+review-frames/
 generated-audio/
 exports/
 *.wav
