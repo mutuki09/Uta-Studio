@@ -1,5 +1,5 @@
 import http from 'node:http';
-import {galopProxy} from './galop-proxy.mjs';
+import {mvStudioProxy} from './mv-studio-proxy.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
@@ -9,7 +9,7 @@ if(!Number.isInteger(port)||port<1024||port>65535)throw new Error('Invalid PORT'
 const types={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.json':'application/json','.wasm':'application/wasm','.sf2':'application/octet-stream','.wav':'audio/wav'};
 http.createServer(async(req,res)=>{
   if(req.headers.host !== '127.0.0.1:'+port || (req.headers.origin && req.headers.origin !== 'http://127.0.0.1:'+port)){res.writeHead(403);res.end();return;}
-  if(await galopProxy(req,res,port))return;
+  if(await mvStudioProxy(req,res,port))return;
   if(req.url.startsWith('/api/')){
     const upstream=http.request({hostname:'127.0.0.1',port:4190,path:req.url,method:req.method,headers:{...req.headers,host:'127.0.0.1:4190'}},reply=>{res.writeHead(reply.statusCode,reply.headers);reply.pipe(res);});
     upstream.on('error',()=>{if(!res.headersSent)res.writeHead(502,{'Content-Type':'application/json; charset=utf-8'});res.end(JSON.stringify({error:'歌声エンジンへ接続できません。元の4190版を起動してください。'}));});
