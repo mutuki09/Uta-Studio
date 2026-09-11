@@ -1,0 +1,29 @@
+{
+  "name": "MV-ready CC0 pack",
+  "license": "CC0-1.0",
+  "backgrounds": [
+    "assets/mv-cc0-pack/01_backgrounds/01_sunny_meadow.jpg",
+    "assets/mv-cc0-pack/01_backgrounds/02_sunset_castle.jpg",
+    "assets/mv-cc0-pack/01_backgrounds/03_moonlit_castle.jpg",
+    "assets/mv-cc0-pack/01_backgrounds/04_dreamy_temple.jpg",
+    "assets/mv-cc0-pack/01_backgrounds/05_desert_journey.jpg",
+    "assets/mv-cc0-pack/01_backgrounds/06_misty_forest.jpg"
+  ],
+  "main": [
+    "assets/mv-cc0-pack/02_main_images/01_planet.png",
+    "assets/mv-cc0-pack/02_main_images/02_planet.png",
+    "assets/mv-cc0-pack/02_main_images/03_planet.png",
+    "assets/mv-cc0-pack/02_main_images/04_planet.png",
+    "assets/mv-cc0-pack/02_main_images/05_planet.png"
+  ],
+  "characters": [
+    "assets/mv-cc0-pack/03_characters/01_female_adventurer_idle.png",
+    "assets/mv-cc0-pack/03_characters/02_female_adventurer_cheer.png",
+    "assets/mv-cc0-pack/03_characters/03_female_person_idle.png",
+    "assets/mv-cc0-pack/03_characters/04_male_adventurer_idle.png",
+    "assets/mv-cc0-pack/03_characters/05_male_person_cheer.png",
+    "assets/mv-cc0-pack/03_characters/06_robot_idle.png",
+    "assets/mv-cc0-pack/03_characters/07_robot_jump.png",
+    "assets/mv-cc0-pack/03_characters/08_female_person_jump.png"
+  ]
+}

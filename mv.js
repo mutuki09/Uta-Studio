@@ -3,7 +3,7 @@
   const panel = document.createElement('section');
   panel.id = 'mvPanel';
   panel.style.cssText = 'margin:32px auto;padding:24px;max-width:1100px;background:#fff;color:#17213b;border:2px solid #7864d4;border-radius:20px';
-  panel.innerHTML = `<h2>⑥ MV制作</h2><p>曲を引き継ぎ、画像を拍に合わせて動かします。ブラウザだけで使える文字なしMVです。</p><button id="mvSong">今の曲を引き継ぐ</button> <label>音声ファイル <input id="mvAudio" type="file" accept="audio/*"></label><p><label>画像（複数可） <input id="mvImages" type="file" accept="image/png,image/jpeg,image/webp" multiple></label></p><label>BPM <input id="mvBpm" type="number" min="30" max="300" value="96" style="width:80px"></label> <label>切替 <select id="mvBeats"><option value="4">4拍</option><option value="8">8拍</option><option value="16">16拍</option></select></label> <label>演出 <select id="mvStyle"><option value="mix">ミックス</option><option value="zoom">ズーム</option><option value="split">分割</option><option value="slide">スライド</option><option value="circle">円形</option></select></label> <button id="mvShuffle">別の構成</button><p><button id="mvPlay">先頭から再生</button> <button id="mvStop">停止</button> <button id="mvSave">動画を保存（実時間）</button></p><canvas id="mvCanvas" width="1280" height="720" style="width:100%;background:#182036;border-radius:12px"></canvas><audio id="mvPlayer" controls style="width:100%"></audio><p id="mvStatus" role="status">曲と画像を選んでください。録画中は画面を開いたままにしてください。</p>`;
+  panel.innerHTML = `<h2>⑥ MV制作</h2><p>曲を引き継ぎ、画像を拍に合わせて動かします。ブラウザだけで使える文字なしMVです。</p><button id="mvSong">今の曲を引き継ぐ</button> <button id="mvCc0Pack">CC0素材19枚をまとめて読み込む</button> <label>音声ファイル <input id="mvAudio" type="file" accept="audio/*"></label><p><label>画像（複数可） <input id="mvImages" type="file" accept="image/png,image/jpeg,image/webp" multiple></label></p><label>BPM <input id="mvBpm" type="number" min="30" max="300" value="96" style="width:80px"></label> <label>切替 <select id="mvBeats"><option value="4">4拍</option><option value="8">8拍</option><option value="16">16拍</option></select></label> <label>演出 <select id="mvStyle"><option value="mix">ミックス</option><option value="zoom">ズーム</option><option value="split">分割</option><option value="slide">スライド</option><option value="circle">円形</option></select></label> <button id="mvShuffle">別の構成</button><p><button id="mvPlay">先頭から再生</button> <button id="mvStop">停止</button> <button id="mvSave">動画を保存（実時間）</button></p><canvas id="mvCanvas" width="1280" height="720" style="width:100%;background:#182036;border-radius:12px"></canvas><audio id="mvPlayer" controls style="width:100%"></audio><p id="mvStatus" role="status">曲と画像を選んでください。録画中は画面を開いたままにしてください。</p>`;
   document.body.append(panel);
   const nav = document.querySelector('.workflow-nav');
   const jump = document.createElement('button'); jump.textContent = '⑥ MV制作'; jump.type='button'; jump.onclick=()=>panel.scrollIntoView({behavior:'smooth'});
@@ -15,6 +15,15 @@
   $('mvAudio').onchange=e=>{if(e.target.files[0])loadAudio(e.target.files[0]);};
   $('mvImages').onchange=async e=>{
     try { const next=await Promise.all([...e.target.files].slice(0,30).map(async file=>{ const image=await createImageBitmap(file); return image; })); pictures.forEach(p=>p.close()); pictures=next; draw(); status(`${pictures.length}枚を読み込みました（最大30枚）。`); } catch(err){status('画像を読み込めません: '+err.message);}
+  };
+  $('mvCc0Pack').onclick=async()=>{
+    try{
+      status('CC0素材を読み込んでいます…');
+      const manifest=await fetch('assets/mv-cc0-pack/manifest.json').then(r=>{if(!r.ok)throw Error('素材一覧を開けません');return r.json();});
+      const paths=[...manifest.backgrounds,...manifest.main,...manifest.characters];
+      const next=await Promise.all(paths.map(async path=>createImageBitmap(await fetch(path).then(r=>{if(!r.ok)throw Error(path);return r.blob();}))));
+      pictures.forEach(p=>p.close());pictures=next;draw();status(`CC0素材${pictures.length}枚を読み込みました。`);
+    }catch(err){status('CC0素材を読み込めません: '+err.message);}
   };
   $('mvSong').onclick=async()=>{ try { status('曲を準備しています…'); const result=await window.MVBridge(); loadAudio(new Blob([result.bytes],{type:'audio/wav'})); $('mvBpm').value=result.bpm; status('現在の曲を引き継ぎました。編集後はもう一度引き継いでください。'); }catch(e){status(e.message);} };
   function cover(image,x,y,w,h,scale=1){const r=Math.max(w/image.width,h/image.height)*scale;ctx.save();ctx.beginPath();ctx.rect(x,y,w,h);ctx.clip();ctx.drawImage(image,x+(w-image.width*r)/2,y+(h-image.height*r)/2,image.width*r,image.height*r);ctx.restore();}
