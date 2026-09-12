@@ -1,5 +1,7 @@
 # 歌スタジオ / AI譜面スタジオ・和声ラボ
 
+[紹介動画（ZEN版・通常版）](https://mutuki09.github.io/Uta-Studio-ZEN/introduction.html) · [動画をGitHubから保存](https://github.com/mutuki09/Uta-Studio/releases/tag/intro-video-20260912)
+
 曲案を読み込み、聴いて、直して、持ち出すためのローカル音楽制作ツールです。
 
 曲名と日本語歌詞から3つの曲案を作れるほか、曲シート、MIDI、MusicXML、Blueprint JSONを読み込んで、メロディ、コード、楽器編成、ドラムを画面上で調整できます。歌詞のないゲームBGMにも利用できます。
